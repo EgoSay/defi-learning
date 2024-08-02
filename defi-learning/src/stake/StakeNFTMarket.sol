@@ -13,8 +13,7 @@ import {StakeModel} from "./StakeModel.sol";
 contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), StakeModel {
     using ECDSA for bytes32;
 
-    constructor (address _whitelistSigner, address _feeTo, address _payToken) StakeModel(_payToken) {
-        whitelistSigner = _whitelistSigner;
+    constructor (address _feeTo, address _payToken) StakeModel(_payToken) {
         feeTo = _feeTo;
     }
 
@@ -22,7 +21,7 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
     struct NftOrderInfo {
         address seller;  // nft seller
         address nftContract; // nft contract address
-        // address payToken;  // pay token
+        address payToken;  // pay token
         uint256 tokenId;  // nft token id
         uint256 price;  // nft price
         uint256 deadline;  // order deadline
@@ -33,9 +32,9 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
     mapping(address => mapping(uint256 => bytes32)) private _lastIds; 
 
 
-    // 项目方，也就是白名单签署方
-    address public whitelistSigner;
     address public constant ETH_FLAG = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
+
+    // every transaction fee
     address public feeTo;
     uint256 public constant feeBP = 30; // 30/10000 = 0.3%
 
@@ -45,13 +44,12 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
     function list(address nftContract, 
                 uint256 tokenId, 
                 uint256 price, 
-                uint256 deadline, 
-                bytes calldata signatureForSellOrder
+                uint256 deadline
             ) external returns (bool) {
         
-        require(price > 0, "PermitNFTMarket: nft price must greater than 0");
-        require(payToken == address(0) || IERC20(payToken).totalSupply() > 0, "MKT: payToken is not valid");
-        require(deadline > block.timestamp, "PermitNFTMarket: deadline is expired");
+        require(price > 0, "nft price must greater than 0");
+        require(payToken == address(0) || IERC20(payToken).totalSupply() > 0, "payToken is not valid");
+        require(deadline > block.timestamp, "deadline is expired");
 
 
         NftOrderInfo memory order = NftOrderInfo({
@@ -63,9 +61,6 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
             deadline: deadline
         });
         bytes32 orderId = keccak256(abi.encode(order));
-
-        // nft owner 需要签名，授权 nftMarket 上架 nft 信息
-        _nftPermit(order, signatureForSellOrder);
 
         // check the operator permission 
         address owner = IERC721(nftContract).ownerOf(tokenId);
@@ -155,89 +150,21 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
 
     function permitBuy(
         address nft, uint256 tokenId,
-        bytes calldata signatureForWL,
-        bytes calldata signatureForSellOrder,
-        bytes calldata signatureForApprove
+        bytes32 r, bytes32 s, uint8 v
     ) public returns (bool) {
         // find the nft order id
         bytes32 orderId = listing(nft, tokenId);
         require(orderId != bytes32(0), "PermitNFTMarket: order not listed");
         NftOrderInfo memory nftOrder = nftOrders[orderId];
-        
-        _verifyWL(signatureForWL);
-
-          // nft owner 需要签名，授权 nftMarket 出售 nft 信息
-        _nftPermit(nftOrder, signatureForSellOrder);
-
-        _tokenPermit(nftOrder, signatureForApprove);
-
+        IERC20Permit(nftOrder.payToken).permit(msg.sender, address(this), nftOrder.price, nftOrder.deadline, v, r, s);
         _buy(orderId, address(0));
-        
         return true;
 
     }
 
-
-    bytes32 public constant WL_TYPEHASH =
-        keccak256("PermitNFTWhiteList(address wlSigner, address user)");
-    function _verifyWL (bytes calldata signatureForWL) view private {
-        // 检查白名单签名
-        bytes32 wlDigest = _hashTypedDataV4(
-            keccak256(abi.encode(WL_TYPEHASH, whitelistSigner, address(msg.sender)))
-        );
-        console.logBytes32(wlDigest);
-        address wlSigner = ECDSA.recover(wlDigest, signatureForWL);
-        require(wlSigner == whitelistSigner, "You are not in WL");
-        console.log("wl  check is ok");
-    }
-
-    function _nftPermit(NftOrderInfo memory nftOrder, bytes calldata signatureForSellOrder) private {
-        // 检查上架信息是否存在， [检查后为了防止重入，删除上架信息]
-        require(nftOrder.seller != address(0), "nft not on sale");
-
-        // nft 签名授权
-        (bytes32 r, bytes32 s, uint8 v) = decodeSign(signatureForSellOrder);
-        // PermitNFT(nftOrder.nftContract).permit(nftOrder.tokenId, address(this), nftOrder.deadline, v, r, s);
-        (bool result, ) = (nftOrder.nftContract).call(
-                abi.encodeWithSignature("permit(uint256,address,uint256,uint8,bytes32,bytes32)",
-                nftOrder.tokenId, 
-                address(this), 
-                nftOrder.deadline, 
-                v, r, s
-            )
-        );
-        require(result, "nft permit failed");
-    }
-
-
-     function _tokenPermit(
-        NftOrderInfo memory nftOrder,
-        bytes memory signatureForApprove) private {
-        // 执行 ERC20 的 permit 进行 授权
-        (bytes32 r, bytes32 s, uint8 v) = decodeSign(signatureForApprove);
-        IERC20Permit(nftOrder.payToken).permit(msg.sender, address(this), nftOrder.price, nftOrder.deadline, v, r, s);
-     }
      
     function getHashData(bytes32 structHash) public view returns (bytes32) {
         return _hashTypedDataV4(structHash);
-    }
-
-    function decodeSign(bytes memory signature) internal pure returns (bytes32 r, bytes32 s, uint8 v) {
-        assembly {
-            r := mload(add(signature, 32))
-            s := mload(add(signature, 64))
-            v := byte(0, mload(add(signature, 96)))
-        }
-        return (r, s, v);
-    }
-
-    // admin functions
-    function setWhiteListSigner(address signer) external onlyOwner {
-        require(signer != address(0), "MKT: zero address");
-        require(whitelistSigner != signer, "MKT:repeat set");
-        whitelistSigner = signer;
-
-        emit SetWhiteListSigner(signer);
     }
 
     function setFeeTo(address to) external onlyOwner {
@@ -252,11 +179,7 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
         return nftOrders[id].seller == address(0) ? bytes32(0x00) : id;
     }
 
-      function getPermitTypehash() public pure returns (bytes32) {
-        return WL_TYPEHASH;
-    }
-
-      // event to log nft trade record
+    // event to log nft trade record
     event NFTListed(
         address indexed nft, // 
         uint256 indexed tokenId,
