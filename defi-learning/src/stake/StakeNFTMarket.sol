@@ -13,8 +13,7 @@ import {StakeModel} from "./StakeModel.sol";
 contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), StakeModel {
     using ECDSA for bytes32;
 
-    constructor (address _feeTo, address _payToken) StakeModel(_payToken) {
-        feeTo = _feeTo;
+    constructor (address _payToken) StakeModel(_payToken) {
     }
 
     // define nft sale info
@@ -35,8 +34,8 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
     address public constant ETH_FLAG = address(0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE);
 
     // every transaction fee
-    address public feeTo;
     uint256 public constant feeBP = 30; // 30/10000 = 0.3%
+    uint256 public constant feeRate = 1e4;
 
     /*
      * @description: add nft to the market list
@@ -96,7 +95,7 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
 
     // buy with eth and no fee
     function buy(bytes32 orderId) public payable {
-        _buy(orderId, feeTo);
+        _buy(orderId);
     }
 
     /*
@@ -105,7 +104,7 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
      * @param {address} feeReceiver 
      * @return {*}
      */    
-    function _buy(bytes32 orderId, address feeReceiver) private {
+    function _buy(bytes32 orderId) private {
         // 1. check the order is exist and valid
         NftOrderInfo memory order = nftOrders[orderId];
         require(order.seller != address(0), "PermitNFTMarket: order not listed");
@@ -118,17 +117,17 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
         IERC721(order.nftContract).safeTransferFrom(order.seller, msg.sender, order.tokenId);
         console.log("transfer nft success");
         // 3. transfer fee to the fee receiver
-        uint256 fee = feeReceiver == address(0) ? 0 : order.price * feeBP / 10000;
+        uint256 fee = order.price * feeBP / feeRate;
         // safe check
         if (order.payToken == ETH_FLAG) {
             require(msg.value == order.price, "PermitNFTMarket: wrong eth value");
         } else {
             require(msg.value == 0, "PermitNFTMarket: wrong eth value");
         }
-        if (fee > 0) _transferOut(order.payToken, msg.sender, feeReceiver, fee);
 
         // 执行分红
         if (fee > 0) {
+            _transferOut(order.payToken, msg.sender, address(this), fee);
             dividend(fee);
         }
 
@@ -157,21 +156,13 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
         require(orderId != bytes32(0), "PermitNFTMarket: order not listed");
         NftOrderInfo memory nftOrder = nftOrders[orderId];
         IERC20Permit(nftOrder.payToken).permit(msg.sender, address(this), nftOrder.price, nftOrder.deadline, v, r, s);
-        _buy(orderId, address(0));
+        _buy(orderId);
         return true;
 
     }
-
      
     function getHashData(bytes32 structHash) public view returns (bytes32) {
         return _hashTypedDataV4(structHash);
-    }
-
-    function setFeeTo(address to) external onlyOwner {
-        require(feeTo != to, "MKT:repeat set");
-        feeTo = to;
-
-        emit SetFeeTo(to);
     }
 
     function listing(address nft, uint256 tokenId) public view returns (bytes32) {
@@ -191,7 +182,4 @@ contract StakeNFTMarket is EIP712("StakeNFTMarket", "1"), Ownable(msg.sender), S
     );
     event NFTBought(address indexed buyer, address indexed nftContract, uint256 indexed tokenId, uint256 price);
     event Cancel(bytes32 orderId);
-    event SetFeeTo(address indexed feeReceiver);
-    event SetWhiteListSigner(address indexed signer);
-
 }

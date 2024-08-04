@@ -1,79 +1,161 @@
-// // SPDX-License-Identifier: SEE LICENSE IN LICENSE
-// pragma solidity ^0.8.20;
+// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+pragma solidity ^0.8.20;
 
 
-// import {console, StdCheats, Test} from "forge-std/Test.sol";
-// import {MyERC20Token} from "../src/stake/MyERC20Token.sol";
-// import {StakeNFTMarket} from "../src/stake/StakeNFTMarket.sol";
-// import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {console, StdCheats, Test} from "forge-std/Test.sol";
+import {MyERC20Token} from "../src/stake/MyERC20Token.sol";
+import {MyNFT} from "../src/stake/MyNFT.sol";
+import {StakeNFTMarket} from "../src/stake/StakeNFTMarket.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-// contract StakeNFTMarketTest is Test {
+contract StakeNFTMarketTest is Test {
     
-//     MyERC20Token token;
-//     StakeNFTMarket market;
-//     address alice = makeAddr("alice");
+    MyERC20Token token;
+    StakeNFTMarket market;
+    MyNFT nftContract;
 
-//     function setUp() public {
+    address admin = makeAddr("admin");
 
-//         token = new MyERC20Token();
-//         market = new StakeNFTMarket();
+    uint256 defaultAmount = 1e18;
 
-//         token.mint(alice, 1000 * 1e18);
-//     }
+    function setUp() public {
+        vm.startPrank(admin);
+        token = new MyERC20Token();
+        market = new StakeNFTMarket(address(token));
+        nftContract = new MyNFT();
+        vm.stopPrank();
+    }
 
-//     function testDealNFTAndStake() public {
-//         // user  A stake some ether
-//         address alice = makeAddr("alice");
+    function testDealNFTAndStake() public {
+        // A staked 1e18 and unclaim reward 4e18
+        // B staked 2e18 and unclaim reward 2e18
+        _dealNFTAndStake();
+    }
+
+    function testStakeAndClaim() public {
+        // A staked 1e18 and unclaim reward 4e18
+        // B staked 2e18 and unclaim reward 2e18
+        uint256 totalStaked = _dealNFTAndStake();
+        // user C stake 3e18 ether, the totalStaked = 6e18
+        address caro = makeAddr("caro"); 
+        initUserInfoAndStake(caro, defaultAmount * 3);
+        totalStaked += defaultAmount;
+        uint256 nftPrice = 2000e18;
+
+        // deal an nft trade
+        _dealNFT(makeAddr("seller3"), nftPrice);
+
+        // c unstaked 1e18 and claim reward
+        vm.startPrank(caro);
+        market.unstake(defaultAmount);
+        (uint256 caroStakedAmount, uint256 caroReward) = market.getStakeDetails(caro);
+        assertEq(caroStakedAmount, defaultAmount * 2);
+
+        uint256 expectedReward = (nftPrice * market.feeBP() / market.feeRate()) * caroStakedAmount / totalStaked;
+        assertEq(caroReward, expectedReward);
+        vm.expectEmit(true, true, false, false);
+        emit Claim(caro, expectedReward);
+        market.claimReward();
+        vm.stopPrank();
+        
+    }
 
 
-//         // deal an nft trade
+    function _dealNFTAndStake() private returns(uint256){
+        uint256 totalStaked = 0;
+        // user  A stake some ether
+        address alice = makeAddr("alice"); 
+        initUserInfoAndStake(alice, defaultAmount);
+        totalStaked += defaultAmount;
 
-//         // user B stake some ether
+        // deal an nft trade
+        uint256 nftPrice = 1000e18;
+        _dealNFT(makeAddr("seller1"), nftPrice);
 
-//         // user A claim reward, and assert the reward is correct
+        // assert the reward is correct
+        (uint256 aliceStakedAmount, uint256 aliceReward) = market.getStakeDetails(alice);
+        uint256 expectedReward = nftPrice * market.feeBP() / market.feeRate();
+        assertEq(aliceStakedAmount, defaultAmount);
+        assertEq(aliceReward, expectedReward);
 
-//         // user C stake some ether
+        // user B stake some ether
+        address bob = makeAddr("bob"); 
+        initUserInfoAndStake(bob, defaultAmount * 2);
+        totalStaked += defaultAmount * 2;
 
-//         // user B unstake, and assert the reward is correct
-//     }
+        // total fees: 3 + 3 = 6
+        _dealNFT(makeAddr("seller2"), nftPrice);
+        uint256 reward2 = nftPrice * market.feeBP() / market.feeRate();
+        (uint256 aliceStakedAmount2, uint256 aliceReward2) = market.getStakeDetails(alice);
+        uint256 expectedReward2 = expectedReward + reward2 * aliceStakedAmount2 / totalStaked;
+        assertEq(aliceStakedAmount2, defaultAmount);
+        assertEq(aliceReward2, expectedReward2);
 
-//     function dealNFT() private view {
-//          // nft owner 签名授权 nftMarket 上架出售
-//         (uint8 v2, bytes32 r2, bytes32 s2) = vm.sign(sellerPrivateKey, getSignatureForNft());
-//         bytes memory signatureForNft = abi.encodePacked(r2, s2, v2);
+        (uint256 bobStakedAmount, uint256 bobReward) = market.getStakeDetails(bob);
+        assertEq(bobStakedAmount, defaultAmount * 2);
+        assertEq(bobReward, reward2 * bobStakedAmount / totalStaked);
 
-//         // 上架 nft
-//         vm.startPrank(seller);
-//         bool listedRsult = market.list(address(nftContract), 
-//                             nftOwnerMap[seller], 
-//                             address(token), 
-//                             nftDeafultPrice, 
-//                             deadline, 
-//                             signatureForNft);
-//         assertTrue(listedRsult);
-//         vm.stopPrank();
+        return totalStaked;
+    }
 
-//         bytes32 whiteListDigest = keccak256(abi.encode(
-//                     nftContract.getPermitTypehash(),
-//                     seller,
-//                     address(market),
-//                     address(nftContract),
-//                     tokenId,
-//                     deadline
-//             ));
-//         (uint8 v1, bytes32 r1, bytes32 s1) =vm.sign(whitelistSignerPrivateKey, getSignatureForWL());
-//         bytes memory signatureForWL = abi.encodePacked(r1, s1, v1);
+    function initUserInfoAndStake(address user, uint256 balance) private {
+        deal(user, balance);
+        vm.startPrank(user);
+        token.approve(address(market), balance);
+        market.stake{value: balance}(balance);
+        vm.stopPrank();
+    }
 
-//         (uint8 v3, bytes32 r3, bytes32 s3) = vm.sign(buyerPrivateKey, getSignatureForTokenApprove());
-//         bytes memory signatureForApprove = abi.encodePacked(r3, s3, v3);
+    function _dealNFT(address seller, uint256 nftPrice ) private {
+        // 创建 nft
+        vm.prank(admin);
+        uint256 tokenId = nftContract.mint(seller, "");
 
-//         // buyer 执行购买
-//         doPermitBuy(signatureForWL, signatureForNft, signatureForApprove);
+        // 上架 nft
+        uint256 deadline = block.timestamp + 1 days;
+        vm.startPrank(seller);
+        nftContract.approve(address(market), tokenId);
+        bool listedRsult = market.list(address(nftContract), tokenId, nftPrice, deadline);
+        assertTrue(listedRsult);
+        vm.stopPrank();
 
-//         // 验证 nft owner 是否转移
-//         assertEq(buyer, nftContract.ownerOf(nftOwnerMap[seller]));
-//         // 验证 user 和 buyer 余额 token 是否正确
-//         assertEq(token.balanceOf(buyer), (init_price - nftDeafultPrice));
-//         assertEq(token.balanceOf(seller), (nftDeafultPrice));
-//     }
-// }
+        // uint256 buyerBalance = 2000e18;
+        address buyer = _doBuyNFT(nftPrice, deadline, tokenId);
+
+        // 验证 nft owner 是否转移
+        assertEq(buyer, nftContract.ownerOf(tokenId));
+        // 验证 user 和 buyer 余额 token 是否正确
+        assertEq(token.balanceOf(buyer), 0);
+    }
+
+    function _doBuyNFT(uint256 nftPrice, uint256 deadline, uint256 tokenId) private returns (address) {
+        uint256 buyerPrivateKey = 0xB1111;
+        address buyer = vm.addr(buyerPrivateKey);
+        deal(address(token), buyer, nftPrice);
+        deal(buyer, nftPrice);
+        vm.startPrank(buyer);
+        uint256 nonce = token.nonces(buyer);
+        // 签名
+        bytes32 tokenDigiest = token.getHashData(
+                keccak256(abi.encode(
+                    token.getPermitTypehash(),
+                    buyer,
+                    address(market),
+                    nftPrice,
+                    nonce,
+                    deadline
+                ))
+            );
+
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(buyerPrivateKey, tokenDigiest);
+        // buyer 执行购买
+        bool buyResult = market.permitBuy(address(nftContract), tokenId, r, s, v);
+        assertTrue(buyResult);
+        vm.stopPrank();
+        return buyer;
+    }
+
+    event Claim(address indexed from, uint256 indexed amount);
+
+}

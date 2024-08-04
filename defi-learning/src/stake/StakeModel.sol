@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
+import {console, StdCheats, Test} from "forge-std/Test.sol";
 
 contract StakeModel {
 
@@ -34,6 +34,7 @@ contract StakeModel {
             return;
         } else {
            latestDividendAmount += amount * 1e18 / totalStakedAmount / 1e18;
+           emit Dividend(amount, latestDividendAmount);
         }
     }
 
@@ -57,7 +58,7 @@ contract StakeModel {
         stakedInfos[user] = stakeDetails;
     }
 
-    function unstake(uint256 amount) internal {
+    function unstake(uint256 amount) public {
         require(amount > 0, "amount must be greater than 0");
         StakedInfo memory stakeDetails = stakedInfos[msg.sender];
         require(stakeDetails.stakedAmount >= amount, "insufficient balance");
@@ -71,7 +72,7 @@ contract StakeModel {
         emit Unstake(msg.sender, amount);
     }
 
-     function claimReward() internal {
+     function claimReward() public {
         _updateReward(msg.sender);
 
         uint256 unClaimedReward = stakedInfos[msg.sender].unClaimedReward;
@@ -86,12 +87,15 @@ contract StakeModel {
     function getStakeDetails(address user) public view returns (uint256, uint256) {
         StakedInfo memory stakeDetails = stakedInfos[user];
         uint256 canGetReward = stakeDetails.stakedAmount * (latestDividendAmount - stakeDetails.lastStakedAt);
+        // console.log("canGetReward", canGetReward);
+        // console.log("latestDividendAmount", latestDividendAmount);
+        // console.log("stakeDetails.lastStakedAt", stakeDetails.lastStakedAt);
         uint256 unclaimReward = canGetReward + stakeDetails.unClaimedReward;
         return (stakeDetails.stakedAmount, unclaimReward);
     }
 
     event Stake(address indexed from, uint256 amount);
     event Unstake(address indexed from, uint256 amount);
-    event Claim(address indexed from, uint256 amount);
-    event Dividend(uint256 indexed nonce, uint256 amount);
+    event Claim(address indexed from, uint256 indexed amount);
+    event Dividend(uint256 indexed totalDividendAmount, uint256 indexed averageAmount);
 } 

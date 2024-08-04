@@ -1,0 +1,649 @@
+No files changed, compilation skipped
+
+Ran 2 tests for test/StakeNFTMarket.t.sol:StakeNFTMarketTest
+[PASS] testDealNFTAndStake() (gas: 1061155)
+Logs:
+  transfer nft success
+  transfer nft success
+
+Traces:
+  [1065368] StakeNFTMarketTest::testDealNFTAndStake()
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [24762] MyERC20Token::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 1000000000000000000 [1e18])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 1000000000000000000 [1e18])
+    │   └─ ← [Return] true
+    ├─ [53730] StakeNFTMarket::stake{value: 1000000000000000000}(1000000000000000000 [1e18])
+    │   ├─ emit Stake(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143]
+    ├─ [0] VM::label(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], "seller1")
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(admin: [0xaA10a84CE7d9AE517a52c6d5cA153b369Af99ecF])
+    │   └─ ← [Return] 
+    ├─ [80809] MyNFT::mint(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], "")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], tokenId: 311)
+    │   ├─ emit MetadataUpdate(_tokenId: 311)
+    │   ├─ emit Mint(minter: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], nonce: 1, tokenId: 311)
+    │   └─ ← [Return] 311
+    ├─ [0] VM::startPrank(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143])
+    │   └─ ← [Return] 
+    ├─ [25052] MyNFT::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 311)
+    │   ├─ emit Approval(owner: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], approved: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], tokenId: 311)
+    │   └─ ← [Stop] 
+    ├─ [167022] StakeNFTMarket::list(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 311, 1000000000000000000000 [1e21], 86401 [8.64e4])
+    │   ├─ [2349] MyERC20Token::totalSupply() [staticcall]
+    │   │   └─ ← [Return] 10000000000000000000000 [1e22]
+    │   ├─ [642] MyNFT::ownerOf(311) [staticcall]
+    │   │   └─ ← [Return] seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143]
+    │   ├─ [844] MyNFT::getApproved(311) [staticcall]
+    │   │   └─ ← [Return] StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4]
+    │   ├─ emit NFTListed(nft: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 311, orderId: 0x4e0e9f717be8b74ec82c8a145e8f86520c6815bc723db05490d982fbde3a6c35, seller: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], payToken: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], price: 1000000000000000000000 [1e21], deadline: 86401 [8.64e4])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [2651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395])
+    │   └─ ← [Return] [0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f], []
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], slot: 43508912969991293308112693659711921982157914794699823470690570299717412546847 [4.35e76])
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], fsig: 0x70a0823100000000000000000000000000000000000000000000000000000000, keysHash: 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, slot: 43508912969991293308112693659711921982157914794699823470690570299717412546847 [4.35e76])
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x00000000000000000000000000000000000000000000003635c9adc5dea00000)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000 [1e21]
+    ├─ [0] VM::deal(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4)
+    │   └─ ← [Return] 
+    ├─ [2616] MyERC20Token::nonces(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [304] MyERC20Token::getPermitTypehash() [staticcall]
+    │   └─ ← [Return] 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9
+    ├─ [659] MyERC20Token::getHashData(0x10ac3e9e0ce394d1eceb36253cd24993a1d786673c557b07e618e44e79838e08) [staticcall]
+    │   └─ ← [Return] 0x468d0a9b1263f419dab85f8709d6ab998f679bc90156f18f9a7942be4aeeeeef
+    ├─ [0] VM::sign("<pk>", 0x468d0a9b1263f419dab85f8709d6ab998f679bc90156f18f9a7942be4aeeeeef) [staticcall]
+    │   └─ ← [Return] 27, 0xc4a7945634690ec80c8c86648141cab351ac459d0d562da155a6a7e71e3a23ed, 0x70ef909b2f77aa6c03d43b386d731ca5aa5fd6667596eecf9123a46119040217
+    ├─ [165055] StakeNFTMarket::permitBuy(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 311, 0xc4a7945634690ec80c8c86648141cab351ac459d0d562da155a6a7e71e3a23ed, 0x70ef909b2f77aa6c03d43b386d731ca5aa5fd6667596eecf9123a46119040217, 27)
+    │   ├─ [49462] MyERC20Token::permit(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 1000000000000000000000 [1e21], 86401 [8.64e4], 27, 0xc4a7945634690ec80c8c86648141cab351ac459d0d562da155a6a7e71e3a23ed, 0x70ef909b2f77aa6c03d43b386d731ca5aa5fd6667596eecf9123a46119040217)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0x468d0a9b1263f419dab85f8709d6ab998f679bc90156f18f9a7942be4aeeeeef, 27, 88949405564672398096862829597299061997252872549948597203530571071703079330797, 51082313525072445928608165435742350557228222776959884078357717314066427675159) [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000004d003b0a02a79a3f6a068b4842dd1bce038a4cd4
+    │   │   ├─ emit Approval(owner: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 1000000000000000000000 [1e21])
+    │   │   └─ ← [Stop] 
+    │   ├─ [29175] MyNFT::safeTransferFrom(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 311)
+    │   │   ├─ emit Transfer(from: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], to: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, tokenId: 311)
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("transfer nft success") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 3000000000000000000 [3e18])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 3000000000000000000 [3e18])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Dividend(totalDividendAmount: 3000000000000000000 [3e18], averageAmount: 3)
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], 997000000000000000000 [9.97e20])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], value: 997000000000000000000 [9.97e20])
+    │   │   └─ ← [Return] true
+    │   ├─ emit NFTBought(buyer: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, nftContract: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 311, price: 1000000000000000000000 [1e21])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [642] MyNFT::ownerOf(311) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [0] VM::assertEq(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [1420] StakeNFTMarket::getStakeDetails(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000 [1e18], 3000000000000000000 [3e18]
+    ├─ [251] StakeNFTMarket::feeRate() [staticcall]
+    │   └─ ← [Return] 10000 [1e4]
+    ├─ [208] StakeNFTMarket::feeBP() [staticcall]
+    │   └─ ← [Return] 30
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(3000000000000000000 [3e18], 3000000000000000000 [3e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e]
+    ├─ [0] VM::label(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], "bob")
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], 2000000000000000000 [2e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e])
+    │   └─ ← [Return] 
+    ├─ [24762] MyERC20Token::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 2000000000000000000 [2e18])
+    │   ├─ emit Approval(owner: bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 2000000000000000000 [2e18])
+    │   └─ ← [Return] true
+    ├─ [49730] StakeNFTMarket::stake{value: 2000000000000000000}(2000000000000000000 [2e18])
+    │   ├─ emit Stake(from: bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], amount: 2000000000000000000 [2e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca]
+    ├─ [0] VM::label(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], "seller2")
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(admin: [0xaA10a84CE7d9AE517a52c6d5cA153b369Af99ecF])
+    │   └─ ← [Return] 
+    ├─ [56909] MyNFT::mint(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], "")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], tokenId: 39)
+    │   ├─ emit MetadataUpdate(_tokenId: 39)
+    │   ├─ emit Mint(minter: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], nonce: 2, tokenId: 39)
+    │   └─ ← [Return] 39
+    ├─ [0] VM::startPrank(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca])
+    │   └─ ← [Return] 
+    ├─ [25052] MyNFT::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 39)
+    │   ├─ emit Approval(owner: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], approved: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], tokenId: 39)
+    │   └─ ← [Stop] 
+    ├─ [163022] StakeNFTMarket::list(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 39, 1000000000000000000000 [1e21], 86401 [8.64e4])
+    │   ├─ [349] MyERC20Token::totalSupply() [staticcall]
+    │   │   └─ ← [Return] 10000000000000000000000 [1e22]
+    │   ├─ [642] MyNFT::ownerOf(39) [staticcall]
+    │   │   └─ ← [Return] seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca]
+    │   ├─ [844] MyNFT::getApproved(39) [staticcall]
+    │   │   └─ ← [Return] StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4]
+    │   ├─ emit NFTListed(nft: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 39, orderId: 0x57e4b7fa43a84dbe93b11e28eedc089277330b8e31080b18e8f08ce732d6e404, seller: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], payToken: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], price: 1000000000000000000000 [1e21], deadline: 86401 [8.64e4])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x00000000000000000000000000000000000000000000003635c9adc5dea00000)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000 [1e21]
+    ├─ [0] VM::deal(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4)
+    │   └─ ← [Return] 
+    ├─ [616] MyERC20Token::nonces(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 1
+    ├─ [304] MyERC20Token::getPermitTypehash() [staticcall]
+    │   └─ ← [Return] 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9
+    ├─ [659] MyERC20Token::getHashData(0x8c023c11fdcd889961ebf1280763b19e915b687785dcc8e49da42140f0d1d12e) [staticcall]
+    │   └─ ← [Return] 0x0cf8044d4195d606206e9e8665c08c6a0cf361e7ce2525b3aea99d0232f74c90
+    ├─ [0] VM::sign("<pk>", 0x0cf8044d4195d606206e9e8665c08c6a0cf361e7ce2525b3aea99d0232f74c90) [staticcall]
+    │   └─ ← [Return] 28, 0xf29d7177e5eb2d28b3b25666f6ea862cca5d53b4b9098165fe1af62d139d26f0, 0x32d83c0be8045ccc4be94ae4c5bc11ca01d2e70b2db599117196da6ed119bfee
+    ├─ [76855] StakeNFTMarket::permitBuy(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 39, 0xf29d7177e5eb2d28b3b25666f6ea862cca5d53b4b9098165fe1af62d139d26f0, 0x32d83c0be8045ccc4be94ae4c5bc11ca01d2e70b2db599117196da6ed119bfee, 28)
+    │   ├─ [27462] MyERC20Token::permit(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 1000000000000000000000 [1e21], 86401 [8.64e4], 28, 0xf29d7177e5eb2d28b3b25666f6ea862cca5d53b4b9098165fe1af62d139d26f0, 0x32d83c0be8045ccc4be94ae4c5bc11ca01d2e70b2db599117196da6ed119bfee)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0x0cf8044d4195d606206e9e8665c08c6a0cf361e7ce2525b3aea99d0232f74c90, 28, 109737887476104773803267566414093516460588015764222549949517411882558868498160, 22997695820929917498693238098697275371759801308137513756702642550874008305646) [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000004d003b0a02a79a3f6a068b4842dd1bce038a4cd4
+    │   │   ├─ emit Approval(owner: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 1000000000000000000000 [1e21])
+    │   │   └─ ← [Stop] 
+    │   ├─ [7275] MyNFT::safeTransferFrom(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 39)
+    │   │   ├─ emit Transfer(from: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], to: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, tokenId: 39)
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("transfer nft success") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [4185] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 3000000000000000000 [3e18])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 3000000000000000000 [3e18])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Dividend(totalDividendAmount: 3000000000000000000 [3e18], averageAmount: 4)
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], 997000000000000000000 [9.97e20])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], value: 997000000000000000000 [9.97e20])
+    │   │   └─ ← [Return] true
+    │   ├─ emit NFTBought(buyer: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, nftContract: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 39, price: 1000000000000000000000 [1e21])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [642] MyNFT::ownerOf(39) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [0] VM::assertEq(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [251] StakeNFTMarket::feeRate() [staticcall]
+    │   └─ ← [Return] 10000 [1e4]
+    ├─ [208] StakeNFTMarket::feeBP() [staticcall]
+    │   └─ ← [Return] 30
+    ├─ [1420] StakeNFTMarket::getStakeDetails(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000 [1e18], 4000000000000000000 [4e18]
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(4000000000000000000 [4e18], 4000000000000000000 [4e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [1420] StakeNFTMarket::getStakeDetails(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e]) [staticcall]
+    │   └─ ← [Return] 2000000000000000000 [2e18], 2000000000000000000 [2e18]
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testStakeAndClaim() (gas: 1557880)
+Logs:
+  transfer nft success
+  transfer nft success
+  transfer nft success
+
+Traces:
+  [1562093] StakeNFTMarketTest::testStakeAndClaim()
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]
+    ├─ [0] VM::label(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], "alice")
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6])
+    │   └─ ← [Return] 
+    ├─ [24762] MyERC20Token::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 1000000000000000000 [1e18])
+    │   ├─ emit Approval(owner: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 1000000000000000000 [1e18])
+    │   └─ ← [Return] true
+    ├─ [53730] StakeNFTMarket::stake{value: 1000000000000000000}(1000000000000000000 [1e18])
+    │   ├─ emit Stake(from: alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6], amount: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143]
+    ├─ [0] VM::label(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], "seller1")
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(admin: [0xaA10a84CE7d9AE517a52c6d5cA153b369Af99ecF])
+    │   └─ ← [Return] 
+    ├─ [80809] MyNFT::mint(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], "")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], tokenId: 311)
+    │   ├─ emit MetadataUpdate(_tokenId: 311)
+    │   ├─ emit Mint(minter: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], nonce: 1, tokenId: 311)
+    │   └─ ← [Return] 311
+    ├─ [0] VM::startPrank(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143])
+    │   └─ ← [Return] 
+    ├─ [25052] MyNFT::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 311)
+    │   ├─ emit Approval(owner: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], approved: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], tokenId: 311)
+    │   └─ ← [Stop] 
+    ├─ [167022] StakeNFTMarket::list(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 311, 1000000000000000000000 [1e21], 86401 [8.64e4])
+    │   ├─ [2349] MyERC20Token::totalSupply() [staticcall]
+    │   │   └─ ← [Return] 10000000000000000000000 [1e22]
+    │   ├─ [642] MyNFT::ownerOf(311) [staticcall]
+    │   │   └─ ← [Return] seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143]
+    │   ├─ [844] MyNFT::getApproved(311) [staticcall]
+    │   │   └─ ← [Return] StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4]
+    │   ├─ emit NFTListed(nft: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 311, orderId: 0x4e0e9f717be8b74ec82c8a145e8f86520c6815bc723db05490d982fbde3a6c35, seller: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], payToken: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], price: 1000000000000000000000 [1e21], deadline: 86401 [8.64e4])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [2651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::record()
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::accesses(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395])
+    │   └─ ← [Return] [0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f], []
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ emit WARNING_UninitedSlot(who: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], slot: 43508912969991293308112693659711921982157914794699823470690570299717412546847 [4.35e76])
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 115792089237316195423570985008687907853269984665640564039457584007913129639935 [1.157e77]
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x0000000000000000000000000000000000000000000000000000000000000000)
+    │   └─ ← [Return] 
+    ├─ emit SlotFound(who: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], fsig: 0x70a0823100000000000000000000000000000000000000000000000000000000, keysHash: 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, slot: 43508912969991293308112693659711921982157914794699823470690570299717412546847 [4.35e76])
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x00000000000000000000000000000000000000000000003635c9adc5dea00000)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000 [1e21]
+    ├─ [0] VM::deal(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4)
+    │   └─ ← [Return] 
+    ├─ [2616] MyERC20Token::nonces(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [304] MyERC20Token::getPermitTypehash() [staticcall]
+    │   └─ ← [Return] 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9
+    ├─ [659] MyERC20Token::getHashData(0x10ac3e9e0ce394d1eceb36253cd24993a1d786673c557b07e618e44e79838e08) [staticcall]
+    │   └─ ← [Return] 0x468d0a9b1263f419dab85f8709d6ab998f679bc90156f18f9a7942be4aeeeeef
+    ├─ [0] VM::sign("<pk>", 0x468d0a9b1263f419dab85f8709d6ab998f679bc90156f18f9a7942be4aeeeeef) [staticcall]
+    │   └─ ← [Return] 27, 0xc4a7945634690ec80c8c86648141cab351ac459d0d562da155a6a7e71e3a23ed, 0x70ef909b2f77aa6c03d43b386d731ca5aa5fd6667596eecf9123a46119040217
+    ├─ [165055] StakeNFTMarket::permitBuy(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 311, 0xc4a7945634690ec80c8c86648141cab351ac459d0d562da155a6a7e71e3a23ed, 0x70ef909b2f77aa6c03d43b386d731ca5aa5fd6667596eecf9123a46119040217, 27)
+    │   ├─ [49462] MyERC20Token::permit(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 1000000000000000000000 [1e21], 86401 [8.64e4], 27, 0xc4a7945634690ec80c8c86648141cab351ac459d0d562da155a6a7e71e3a23ed, 0x70ef909b2f77aa6c03d43b386d731ca5aa5fd6667596eecf9123a46119040217)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0x468d0a9b1263f419dab85f8709d6ab998f679bc90156f18f9a7942be4aeeeeef, 27, 88949405564672398096862829597299061997252872549948597203530571071703079330797, 51082313525072445928608165435742350557228222776959884078357717314066427675159) [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000004d003b0a02a79a3f6a068b4842dd1bce038a4cd4
+    │   │   ├─ emit Approval(owner: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 1000000000000000000000 [1e21])
+    │   │   └─ ← [Stop] 
+    │   ├─ [29175] MyNFT::safeTransferFrom(seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 311)
+    │   │   ├─ emit Transfer(from: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], to: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, tokenId: 311)
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("transfer nft success") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 3000000000000000000 [3e18])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 3000000000000000000 [3e18])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Dividend(totalDividendAmount: 3000000000000000000 [3e18], averageAmount: 3)
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], 997000000000000000000 [9.97e20])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: seller1: [0xA2A3CDfD4382bDD2c03C8646d8391BBC4Dae9143], value: 997000000000000000000 [9.97e20])
+    │   │   └─ ← [Return] true
+    │   ├─ emit NFTBought(buyer: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, nftContract: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 311, price: 1000000000000000000000 [1e21])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [642] MyNFT::ownerOf(311) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [0] VM::assertEq(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [1420] StakeNFTMarket::getStakeDetails(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000 [1e18], 3000000000000000000 [3e18]
+    ├─ [251] StakeNFTMarket::feeRate() [staticcall]
+    │   └─ ← [Return] 10000 [1e4]
+    ├─ [208] StakeNFTMarket::feeBP() [staticcall]
+    │   └─ ← [Return] 30
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(3000000000000000000 [3e18], 3000000000000000000 [3e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e]
+    ├─ [0] VM::label(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], "bob")
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], 2000000000000000000 [2e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e])
+    │   └─ ← [Return] 
+    ├─ [24762] MyERC20Token::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 2000000000000000000 [2e18])
+    │   ├─ emit Approval(owner: bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 2000000000000000000 [2e18])
+    │   └─ ← [Return] true
+    ├─ [49730] StakeNFTMarket::stake{value: 2000000000000000000}(2000000000000000000 [2e18])
+    │   ├─ emit Stake(from: bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e], amount: 2000000000000000000 [2e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca]
+    ├─ [0] VM::label(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], "seller2")
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(admin: [0xaA10a84CE7d9AE517a52c6d5cA153b369Af99ecF])
+    │   └─ ← [Return] 
+    ├─ [56909] MyNFT::mint(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], "")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], tokenId: 39)
+    │   ├─ emit MetadataUpdate(_tokenId: 39)
+    │   ├─ emit Mint(minter: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], nonce: 2, tokenId: 39)
+    │   └─ ← [Return] 39
+    ├─ [0] VM::startPrank(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca])
+    │   └─ ← [Return] 
+    ├─ [25052] MyNFT::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 39)
+    │   ├─ emit Approval(owner: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], approved: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], tokenId: 39)
+    │   └─ ← [Stop] 
+    ├─ [163022] StakeNFTMarket::list(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 39, 1000000000000000000000 [1e21], 86401 [8.64e4])
+    │   ├─ [349] MyERC20Token::totalSupply() [staticcall]
+    │   │   └─ ← [Return] 10000000000000000000000 [1e22]
+    │   ├─ [642] MyNFT::ownerOf(39) [staticcall]
+    │   │   └─ ← [Return] seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca]
+    │   ├─ [844] MyNFT::getApproved(39) [staticcall]
+    │   │   └─ ← [Return] StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4]
+    │   ├─ emit NFTListed(nft: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 39, orderId: 0x57e4b7fa43a84dbe93b11e28eedc089277330b8e31080b18e8f08ce732d6e404, seller: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], payToken: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], price: 1000000000000000000000 [1e21], deadline: 86401 [8.64e4])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x00000000000000000000000000000000000000000000003635c9adc5dea00000)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 1000000000000000000000 [1e21]
+    ├─ [0] VM::deal(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 1000000000000000000000 [1e21])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4)
+    │   └─ ← [Return] 
+    ├─ [616] MyERC20Token::nonces(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 1
+    ├─ [304] MyERC20Token::getPermitTypehash() [staticcall]
+    │   └─ ← [Return] 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9
+    ├─ [659] MyERC20Token::getHashData(0x8c023c11fdcd889961ebf1280763b19e915b687785dcc8e49da42140f0d1d12e) [staticcall]
+    │   └─ ← [Return] 0x0cf8044d4195d606206e9e8665c08c6a0cf361e7ce2525b3aea99d0232f74c90
+    ├─ [0] VM::sign("<pk>", 0x0cf8044d4195d606206e9e8665c08c6a0cf361e7ce2525b3aea99d0232f74c90) [staticcall]
+    │   └─ ← [Return] 28, 0xf29d7177e5eb2d28b3b25666f6ea862cca5d53b4b9098165fe1af62d139d26f0, 0x32d83c0be8045ccc4be94ae4c5bc11ca01d2e70b2db599117196da6ed119bfee
+    ├─ [76855] StakeNFTMarket::permitBuy(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 39, 0xf29d7177e5eb2d28b3b25666f6ea862cca5d53b4b9098165fe1af62d139d26f0, 0x32d83c0be8045ccc4be94ae4c5bc11ca01d2e70b2db599117196da6ed119bfee, 28)
+    │   ├─ [27462] MyERC20Token::permit(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 1000000000000000000000 [1e21], 86401 [8.64e4], 28, 0xf29d7177e5eb2d28b3b25666f6ea862cca5d53b4b9098165fe1af62d139d26f0, 0x32d83c0be8045ccc4be94ae4c5bc11ca01d2e70b2db599117196da6ed119bfee)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0x0cf8044d4195d606206e9e8665c08c6a0cf361e7ce2525b3aea99d0232f74c90, 28, 109737887476104773803267566414093516460588015764222549949517411882558868498160, 22997695820929917498693238098697275371759801308137513756702642550874008305646) [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000004d003b0a02a79a3f6a068b4842dd1bce038a4cd4
+    │   │   ├─ emit Approval(owner: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 1000000000000000000000 [1e21])
+    │   │   └─ ← [Stop] 
+    │   ├─ [7275] MyNFT::safeTransferFrom(seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 39)
+    │   │   ├─ emit Transfer(from: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], to: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, tokenId: 39)
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("transfer nft success") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [4185] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 3000000000000000000 [3e18])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 3000000000000000000 [3e18])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Dividend(totalDividendAmount: 3000000000000000000 [3e18], averageAmount: 4)
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], 997000000000000000000 [9.97e20])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: seller2: [0xD441DF3f8CDdA9f67a4Cf339577BB0eF9483c3Ca], value: 997000000000000000000 [9.97e20])
+    │   │   └─ ← [Return] true
+    │   ├─ emit NFTBought(buyer: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, nftContract: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 39, price: 1000000000000000000000 [1e21])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [642] MyNFT::ownerOf(39) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [0] VM::assertEq(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [251] StakeNFTMarket::feeRate() [staticcall]
+    │   └─ ← [Return] 10000 [1e4]
+    ├─ [208] StakeNFTMarket::feeBP() [staticcall]
+    │   └─ ← [Return] 30
+    ├─ [1420] StakeNFTMarket::getStakeDetails(alice: [0x328809Bc894f92807417D2dAD6b7C998c1aFdac6]) [staticcall]
+    │   └─ ← [Return] 1000000000000000000 [1e18], 4000000000000000000 [4e18]
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(4000000000000000000 [4e18], 4000000000000000000 [4e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [1420] StakeNFTMarket::getStakeDetails(bob: [0x1D96F2f6BeF1202E4Ce1Ff6Dad0c2CB002861d3e]) [staticcall]
+    │   └─ ← [Return] 2000000000000000000 [2e18], 2000000000000000000 [2e18]
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4]
+    ├─ [0] VM::label(caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], "caro")
+    │   └─ ← [Return] 
+    ├─ [0] VM::deal(caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], 3000000000000000000 [3e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4])
+    │   └─ ← [Return] 
+    ├─ [24762] MyERC20Token::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 3000000000000000000 [3e18])
+    │   ├─ emit Approval(owner: caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 3000000000000000000 [3e18])
+    │   └─ ← [Return] true
+    ├─ [49730] StakeNFTMarket::stake{value: 3000000000000000000}(3000000000000000000 [3e18])
+    │   ├─ emit Stake(from: caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], amount: 3000000000000000000 [3e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963]
+    ├─ [0] VM::label(seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], "seller3")
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(admin: [0xaA10a84CE7d9AE517a52c6d5cA153b369Af99ecF])
+    │   └─ ← [Return] 
+    ├─ [56909] MyNFT::mint(seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], "")
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], tokenId: 138)
+    │   ├─ emit MetadataUpdate(_tokenId: 138)
+    │   ├─ emit Mint(minter: seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], nonce: 3, tokenId: 138)
+    │   └─ ← [Return] 138
+    ├─ [0] VM::startPrank(seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963])
+    │   └─ ← [Return] 
+    ├─ [25052] MyNFT::approve(StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 138)
+    │   ├─ emit Approval(owner: seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], approved: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], tokenId: 138)
+    │   └─ ← [Stop] 
+    ├─ [163022] StakeNFTMarket::list(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 138, 2000000000000000000000 [2e21], 86401 [8.64e4])
+    │   ├─ [349] MyERC20Token::totalSupply() [staticcall]
+    │   │   └─ ← [Return] 10000000000000000000000 [1e22]
+    │   ├─ [642] MyNFT::ownerOf(138) [staticcall]
+    │   │   └─ ← [Return] seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963]
+    │   ├─ [844] MyNFT::getApproved(138) [staticcall]
+    │   │   └─ ← [Return] StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4]
+    │   ├─ emit NFTListed(nft: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 138, orderId: 0x16d09b9c316790c258ebf872c3586d6ccc2820b588152e7efb82286b35d3d8e6, seller: seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], payToken: MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], price: 2000000000000000000000 [2e21], deadline: 86401 [8.64e4])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::addr(<pk>) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::load(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f) [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000000000000000000000000000000000
+    ├─ [0] VM::store(MyERC20Token: [0x3Ede3eCa2a72B3aeCC820E955B36f38437D01395], 0x60312c0bfaeb640a59d7d722d37d2ea9785bf6b62594db3f1e847e5ebc29691f, 0x00000000000000000000000000000000000000000000006c6b935b8bbd400000)
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 2000000000000000000000 [2e21]
+    ├─ [0] VM::deal(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 2000000000000000000000 [2e21])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4)
+    │   └─ ← [Return] 
+    ├─ [616] MyERC20Token::nonces(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 2
+    ├─ [304] MyERC20Token::getPermitTypehash() [staticcall]
+    │   └─ ← [Return] 0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9
+    ├─ [659] MyERC20Token::getHashData(0x987aa6b4216ae7470f1d15cd770d0c306e12881a3c10a8a680af7acb8610b718) [staticcall]
+    │   └─ ← [Return] 0xb1baf910a7c25a269f2e5bf27def32bc56e46db1f2ae811a71638319918c6740
+    ├─ [0] VM::sign("<pk>", 0xb1baf910a7c25a269f2e5bf27def32bc56e46db1f2ae811a71638319918c6740) [staticcall]
+    │   └─ ← [Return] 27, 0xc541fe42f2a8a74168b44ac1e96b0e63205625624db6f2a562feea2d6c28cc5d, 0x480279667863a055ae246d46a81d4025777706f77174aadfd6c60912b2f28327
+    ├─ [76855] StakeNFTMarket::permitBuy(MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], 138, 0xc541fe42f2a8a74168b44ac1e96b0e63205625624db6f2a562feea2d6c28cc5d, 0x480279667863a055ae246d46a81d4025777706f77174aadfd6c60912b2f28327, 27)
+    │   ├─ [27462] MyERC20Token::permit(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 2000000000000000000000 [2e21], 86401 [8.64e4], 27, 0xc541fe42f2a8a74168b44ac1e96b0e63205625624db6f2a562feea2d6c28cc5d, 0x480279667863a055ae246d46a81d4025777706f77174aadfd6c60912b2f28327)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0xb1baf910a7c25a269f2e5bf27def32bc56e46db1f2ae811a71638319918c6740, 27, 89222231078597592870542683782129103157707492075714964955065960832632837688413, 32570896666025717325053292575539433051455419339386644524111050308196859282215) [staticcall]
+    │   │   │   └─ ← [Return] 0x0000000000000000000000004d003b0a02a79a3f6a068b4842dd1bce038a4cd4
+    │   │   ├─ emit Approval(owner: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, spender: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 2000000000000000000000 [2e21])
+    │   │   └─ ← [Stop] 
+    │   ├─ [7275] MyNFT::safeTransferFrom(seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 138)
+    │   │   ├─ emit Transfer(from: seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], to: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, tokenId: 138)
+    │   │   └─ ← [Stop] 
+    │   ├─ [0] console::log("transfer nft success") [staticcall]
+    │   │   └─ ← [Stop] 
+    │   ├─ [4185] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], 6000000000000000000 [6e18])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], value: 6000000000000000000 [6e18])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Dividend(totalDividendAmount: 6000000000000000000 [6e18], averageAmount: 5)
+    │   ├─ [26085] MyERC20Token::transferFrom(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], 1994000000000000000000 [1.994e21])
+    │   │   ├─ emit Transfer(from: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, to: seller3: [0x5d027332Fcc7B0D9fc85d691623392c6d5a1c963], value: 1994000000000000000000 [1.994e21])
+    │   │   └─ ← [Return] true
+    │   ├─ emit NFTBought(buyer: 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, nftContract: MyNFT: [0xDDd9A038D57372934f1b9c52bd8621F5ED4268DF], tokenId: 138, price: 2000000000000000000000 [2e21])
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [642] MyNFT::ownerOf(138) [staticcall]
+    │   └─ ← [Return] 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4
+    ├─ [0] VM::assertEq(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4, 0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [651] MyERC20Token::balanceOf(0x4d003b0a02A79a3f6A068B4842dD1BCE038A4Cd4) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4])
+    │   └─ ← [Return] 
+    ├─ [56210] StakeNFTMarket::unstake(1000000000000000000 [1e18])
+    │   ├─ [0] caro::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   ├─ emit Unstake(from: caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], amount: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [1420] StakeNFTMarket::getStakeDetails(caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4]) [staticcall]
+    │   └─ ← [Return] 2000000000000000000 [2e18], 3000000000000000000 [3e18]
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [251] StakeNFTMarket::feeRate() [staticcall]
+    │   └─ ← [Return] 10000 [1e4]
+    ├─ [208] StakeNFTMarket::feeBP() [staticcall]
+    │   └─ ← [Return] 30
+    ├─ [0] VM::assertEq(3000000000000000000 [3e18], 3000000000000000000 [3e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectEmit(true, true, false, false)
+    │   └─ ← [Return] 
+    ├─ emit Claim(from: caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], amount: 3000000000000000000 [3e18])
+    ├─ [29242] StakeNFTMarket::claimReward()
+    │   ├─ [25144] MyERC20Token::transfer(caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], 3000000000000000000 [3e18])
+    │   │   ├─ emit Transfer(from: StakeNFTMarket: [0x6D9da78B6A5BEdcA287AA5d49613bA36b90c15C4], to: caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], value: 3000000000000000000 [3e18])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Claim(from: caro: [0xBCc2B90261f95eE65073E5d0a189dd41744e20C4], amount: 3000000000000000000 [3e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.04ms (7.26ms CPU time)
+
+Ran 1 test suite in 1.90s (6.04ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
+
+
+Test Summary:
+
+╭--------------------+--------+--------+---------+---------------------------+----------╮
+|     Test Suite     | Passed | Failed | Skipped |         File Path         | Duration |
++=======================================================================================+
+| StakeNFTMarketTest |    2   |    0   |    0    | test/StakeNFTMarket.t.sol | 6.04ms   |
+╰--------------------+--------+--------+---------+---------------------------+----------╯
