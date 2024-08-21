@@ -4,3 +4,12 @@
 [submodule "defi-learning/lib/openzeppelin-contracts"]
 	path = defi-learning/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "v2-core"]
+	path = v2-core
+	url = git@github.com:EgoSay/v2-core.git
+[submodule "v3-core"]
+	path = v3-core
+	url = git@github.com:EgoSay/v3-core.git
+[submodule "masterchef"]
+	path = masterchef
+	url = git@github.com:sushiswap/masterchef.git
