@@ -60,7 +60,7 @@ library Types {
         bool support;
 
         /// @notice The number of votes the voter had, which were cast
-        uint96 votes;
+        uint256 votes;
     }
 
     /// @notice Possible states that a proposal may be in
